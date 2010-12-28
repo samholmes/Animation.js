@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>Easing Test</title>
+		<!--[if IE]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<style>
+			article, aside, figure, footer, header, hgroup, 
+			menu, nav, section { display: block; }
+			
+			#scene {
+				height: 300px;
+				overflow: hidden;
+			}
+			
+			#foo {
+				background: blue;
+				position: relative;
+				width: 100px;
+				height: 100px;
+			}
+		</style>
+		<script type='text/javascript' src='../Animation.js'></script>
+		<script>
+			var anim = new Animation();
+			
+			window.onload = function() {
+				var foo = document.getElementById("foo");
+				
+				var eases = document.getElementById('eases');
+				var ease = null;
+				
+				for (var i in Animation.ease)
+				{
+					var option = document.createElement("option");
+					option.textContent = i;
+					option.value = i;
+					eases.appendChild(option);
+				}
+				
+				eases.onchange = function(event) {
+					ease = this.options[this.selectedIndex].value;
+					anim.play();
+				};
+				
+				anim.addFrame(function(t) {
+				  t = Animation.ease[ease](t);
+				  foo.style.top = 100*t+"px";
+				  foo.style.left = 200*t+"px";
+				}, 1000);
+			};
+		</script>
+	</head>
+<body>
+	<div id='scene'>
+		<div id='foo'></div>
+	</div>
+	<select id='eases'>
+		<option value='null'>Select Ease</option>
+	</select>
+</body>
+</html>

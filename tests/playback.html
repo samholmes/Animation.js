@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>Playback Test</title>
+		<!--[if IE]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<style>
+			article, aside, figure, footer, header, hgroup, 
+			menu, nav, section { display: block; }
+			
+			#scene {
+				height: 300px;
+				overflow: hidden;
+			}
+			
+			#foo {
+				background: blue;
+				position: relative;
+				width: 100px;
+				height: 100px;
+			}
+			
+			#track {
+				background: lightgrey;
+				width: 300px;
+				height: 10px;
+			}
+			#progress {
+				background: red;
+				height: 10px;
+				width: 0px;
+			}
+		</style>
+		<script type='text/javascript' src='../Animation.js'></script>
+		<script>
+			var anim = new Animation();
+			
+			
+			
+			window.onload = function() {
+				var foo = document.getElementById("foo");
+				
+				var scrubbing = false;
+				var track = document.getElementById('track');
+				
+				track.onmousedown = function(eventObj) {
+					eventObj = eventObj || event;
+					scrubbing = true;
+					var percent = (eventObj.clientX-track.offsetLeft)/300;
+					anim.scrub(percent*anim.duration);
+					return false;
+				};
+				document.onmouseup = function() {
+					scrubbing = false;
+				};
+				
+				document.onmousemove = function(eventObj) {
+					eventObj = eventObj || event;
+					if (scrubbing)
+					{
+						var percent = (eventObj.clientX-track.offsetLeft)/300;
+						anim.scrub(percent*anim.duration);
+					}
+				};
+				
+				anim.addFrame(function(t, startWidth, startHeight) {
+				  t = Animation.ease.quadIn(t);
+				  foo.style.top = "0px";
+				  foo.style.left = "0px";
+				  foo.style.width = startWidth+t*200+"px";
+				  foo.style.height = startHeight+t*200+"px";
+				}, 1000, foo.clientWidth, foo.clientHeight);
+				
+				anim.addFrame(function(t) {
+				  t = Animation.ease.bounceOut(t);
+				  foo.style.top = t*200+"px";
+				  foo.style.left = t*200+"px";
+				}, 1000);
+				
+				anim.addFrame(function(t) {
+					foo.style.top = 200-200*t+"px";
+					foo.style.left = 200-200*t+"px";
+				  foo.style.width = 300-200*t+"px";
+				  foo.style.height = 300-200*t+"px";
+				}, 1000);
+				
+				anim.timeupdate = function() {
+				  document.getElementById('progress').style.width = 300*(anim.currentTime/anim.duration)+"px";
+				};
+			};
+		</script>
+	</head>
+<body>
+	<div id='scene'>
+		<div id='foo'>Hello World</div>
+	</div>
+	<button onclick="anim.play()">Play</button>
+	<button onclick="anim.pause()">Pause</button>
+	<button onclick="anim.stop()">Stop</button>
+	<button onclick="anim.scrub(document.getElementById('scrub').value)">Scrub</button>
+	<input id="scrub" type='text' value='0ms'/>
+	Looping:<button onclick="anim.loop = anim.loop ? false : true; this.textContent = anim.loop;">false</button>
+	<button onclick="anim.rate = document.getElementById('rate').value;">Rate</button>
+	<input id="rate" type='text' value='1'/>
+	<div id='track'><div id='progress'></div></div>
+</body>
+</html>

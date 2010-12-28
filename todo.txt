@@ -1,0 +1,11 @@
++ Port all of jQuery Easing plugin's easings.
+	+ put all easings within an single property (called it eases, easings or something)
+
+- Add an options parameter alternative to addFrame
+	- begin, step and end callbacks
+	- duration
+	- extras
+
++ Add an options parameter to the Animation() constructor
+
++ Add support for begin and end callbacks for the entire animation

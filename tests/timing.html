@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>Timing Test</title>
+		
+		<style type='text/css'>
+			#foo {
+				width: 100px;
+				height: 100px;
+				background: lightgrey;
+			}
+		</style>
+		<script type='text/javascript' src='../Animation.js'></script>
+		<script>
+			window.onload = function() {
+				var foo = document.getElementById('foo');
+				var ms = document.getElementById('ms');
+				var anim = new Animation();
+				
+				anim.addFrame(function(t, width) {
+					for (var i=0; i<1000; i++)
+						console.log(Math.pow(Math.sqrt(t), 100)/3/3/3/3);
+					foo.style.width = width+t*200+'px';
+					ms.textContent = (Date.now() - time)+"ms";
+				}, 100, foo.offsetWidth);
+				
+				var time = new Date();
+				
+				anim.play();
+			};
+		</script>
+	</head>
+	<body>
+		<div id='foo'>0</div>
+		<div id='ms'>0ms</div>
+	</body>
+</html>
