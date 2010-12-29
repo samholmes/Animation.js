@@ -1,5 +1,5 @@
 /*
-  Animation.js 0.1 - Copyright (c) 2010 Sam Holmes
+  Animation.js 0.1.1 - Copyright (c) 2010 Sam Holmes
   
   Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) 
   and GPL (http://www.opensource.org/licenses/gpl-3.0.html) licenses.
@@ -30,16 +30,17 @@ function Animation(options) {
   this.begin = options.begin || null;
   this.timeupdate = options.timeupdate || null;
   this.end = options.end || null;
+  this.extra = options.extra || [];
   
   ////////// addFrame //////////
   this.addFrame = function(callback, duration) {
-    var extras = [].slice.apply(arguments, [2, arguments.length]);
+    var extra = [].slice.apply(arguments, [2, arguments.length]);
     this.frames.push({
       callback:callback, // A function to be executed whenever this frame's currentTime changes
       position:this.duration, // Millisecond starting position in the entire animation
       duration:duration, // Millisecond duration of this frame
       currentTime:0, // Represents the number of millisecond progress it's made 
-      extras:extras // Extra paramaters to pass to this frame's callback
+      extra:extra // Extra paramaters to pass to this frame's callback
     });
     this.duration += duration;
   };
@@ -50,7 +51,7 @@ function Animation(options) {
   	for (var i=0; i < options.frames.length; ++i)
 	  {
 	  	var frame = options.frames[i];
-	  	this.addFrame.apply(this, [frame.callback, frame.duration].concat(frame.extras));
+	  	this.addFrame.apply(this, [frame.callback, frame.duration].concat(frame.extra));
 	  }
   }
   
@@ -128,13 +129,13 @@ function Animation(options) {
           if (animationFrame.currentTime != 0)
           {
             animationFrame.currentTime = 0;
-            animationFrame.callback.apply(animationFrame, [0].concat(animationFrame.extras));
+            animationFrame.callback.apply(animationFrame, [0].concat(animationFrame.extra));
           }
         }
         else
         {
           animationFrame.currentTime = time-animationFrame.position;
-          animationFrame.callback.apply(animationFrame, [animationFrame.currentTime/animationFrame.duration].concat(animationFrame.extras));
+          animationFrame.callback.apply(animationFrame, [animationFrame.currentTime/animationFrame.duration].concat(animationFrame.extra));
           break;
         }
       }
@@ -151,13 +152,13 @@ function Animation(options) {
           if (animationFrame.currentTime != animationFrame.duration)
           {
             animationFrame.currentTime = animationFrame.duration;
-            animationFrame.callback.apply(animationFrame, [1].concat(animationFrame.extras));
+            animationFrame.callback.apply(animationFrame, [1].concat(animationFrame.extra));
           }
         }
         else
         {
           animationFrame.currentTime = time-animationFrame.position;
-          animationFrame.callback.apply(animationFrame, [animationFrame.currentTime/animationFrame.duration].concat(animationFrame.extras));
+          animationFrame.callback.apply(animationFrame, [animationFrame.currentTime/animationFrame.duration].concat(animationFrame.extra));
           break;
         }
       }
