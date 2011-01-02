@@ -101,7 +101,7 @@
 	<button onclick="anim.stop()">Stop</button>
 	<button onclick="anim.scrub(document.getElementById('scrub').value)">Scrub</button>
 	<input id="scrub" type='text' value='0ms'/>
-	Looping:<button onclick="anim.loop = anim.loop ? false : true; this.textContent = anim.loop;">false</button>
+	Looping:<button onclick="anim.loop = anim.loop ? false : true; this.innerHTML = anim.loop;">false</button>
 	<button onclick="anim.rate = document.getElementById('rate').value;">Rate</button>
 	<input id="rate" type='text' value='1'/>
 	<div id='track'><div id='progress'></div></div>

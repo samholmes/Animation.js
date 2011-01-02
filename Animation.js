@@ -1,5 +1,5 @@
 /*
-  Animation.js 0.1.1 - Copyright (c) 2010 Sam Holmes
+  Animation.js 0.1.2 - Copyright (c) 2010 Sam Holmes
   
   Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) 
   and GPL (http://www.opensource.org/licenses/gpl-3.0.html) licenses.
@@ -174,12 +174,12 @@ function Animation(options) {
 
 //Animation properties
 Animation.animations = [];
-Animation.lastInterval = Date.now();
+Animation.lastInterval = +new Date();
 
 //Animation interval
 Animation.intervalId = setInterval(function() {
   var animations = Animation.animations;
-  var now = Date.now();
+  var now = +new Date();
   
   for (var i=0, len=animations.length; i<len; ++i)
   {
