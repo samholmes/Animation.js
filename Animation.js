@@ -1,5 +1,5 @@
 /*
-  Animation.js 0.1.3 - Copyright (c) 2010 Sam Holmes
+  Animation.js 0.1.4 - Copyright (c) 2010 Sam Holmes
   
   Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) 
   and GPL (http://www.opensource.org/licenses/gpl-3.0.html) licenses.
@@ -33,14 +33,22 @@ function Animation(options) {
   this.extra = options.extra || [];
   
   ////////// addFrame //////////
-  this.addFrame = function(callback, duration) {
-    var extra = [].slice.apply(arguments, [2, arguments.length]);
+  this.addFrame = function(a, b){
+  	// a and b will either be the step callback and duration respectively, or a would be an options object
+		var step = a.step || a,
+  			begin = a.begin || null,
+  			end = a.end || null,
+  			duration = a.duration || b,
+  			extra = a.extra || [].slice.apply(arguments, [2, arguments.length]);
+  	
     this.frames.push({
-      callback:callback, // A function to be executed whenever this frame's currentTime changes
-      position:this.duration, // Millisecond starting position in the entire animation
-      duration:duration, // Millisecond duration of this frame
-      currentTime:0, // Represents the number of millisecond progress it's made 
-      extra:extra // Extra paramaters to pass to this frame's callback
+      step: step, // A function to be executed whenever this frame's currentTime changes
+      begin: begin, // A function to be executed whenever the frame begins playback
+      end: end, // A function to be execture whenever the frame finishes playback
+      position: this.duration, // Millisecond starting position in the entire animation
+      duration: duration, // Millisecond duration of this frame
+      currentTime: 0, // Represents the number of millisecond progress it's made 
+      extra: extra // Extra paramaters to pass to this frame's callback
     });
     this.duration += duration;
   };
@@ -50,8 +58,7 @@ function Animation(options) {
   {
   	for (var i=0; i < options.frames.length; ++i)
 	  {
-	  	var frame = options.frames[i];
-	  	this.addFrame.apply(this, [frame.callback, frame.duration].concat(frame.extra));
+	  	this.addFrame.call(this, options.frames[i]);
 	  }
   }
   
@@ -111,11 +118,7 @@ function Animation(options) {
   ////////// scrub //////////
   this.scrub = function(time) {
     time = +time || 0; // Make sure time is a number
-    time = time > this.duration // Make sure time isn't larger than the animation duration or less than 0
-      ? this.duration 
-      : time < 0
-        ? 0
-        : time;
+    time = Math.max(Math.min(time, this.duration), 0); // Make sure time isn't larger than the animation duration or less than 0
     
     if (time < this.currentTime) // Position is before the current time
     {
@@ -129,13 +132,13 @@ function Animation(options) {
           if (animationFrame.currentTime != 0)
           {
             animationFrame.currentTime = 0;
-            animationFrame.callback.apply(animationFrame, [0].concat(animationFrame.extra));
+            animationFrame.step.apply(animationFrame, [0].concat(animationFrame.extra));
           }
         }
         else
         {
           animationFrame.currentTime = time-animationFrame.position;
-          animationFrame.callback.apply(animationFrame, [animationFrame.currentTime/animationFrame.duration].concat(animationFrame.extra));
+          animationFrame.step.apply(animationFrame, [animationFrame.currentTime/animationFrame.duration].concat(animationFrame.extra));
           break;
         }
       }
@@ -152,13 +155,13 @@ function Animation(options) {
           if (animationFrame.currentTime != animationFrame.duration)
           {
             animationFrame.currentTime = animationFrame.duration;
-            animationFrame.callback.apply(animationFrame, [1].concat(animationFrame.extra));
+            animationFrame.step.apply(animationFrame, [1].concat(animationFrame.extra));
           }
         }
         else
         {
           animationFrame.currentTime = time-animationFrame.position;
-          animationFrame.callback.apply(animationFrame, [animationFrame.currentTime/animationFrame.duration].concat(animationFrame.extra));
+          animationFrame.step.apply(animationFrame, [animationFrame.currentTime/animationFrame.duration].concat(animationFrame.extra));
           break;
         }
       }

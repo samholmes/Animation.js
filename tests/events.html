@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>Playback Test</title>
+		<!--[if IE]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<style>
+			article, aside, figure, footer, header, hgroup, 
+			menu, nav, section { display: block; }
+			
+			#scene {
+			}
+			
+			#foo {
+			}
+			
+			#track {
+				background: lightgrey;
+				width: 300px;
+				height: 10px;
+			}
+			#progress {
+				background: red;
+				height: 10px;
+				width: 0px;
+			}
+			#console {
+				width: 300px;
+				height: 200px;
+				margin: 10px 0px;
+			}
+		</style>
+		<script type='text/javascript' src='../Animation.js'></script>
+		<script>
+			var anim; // Global
+			
+			window.onload = function() {
+				var foo = document.getElementById("foo");
+				var console = document.getElementById('console');
+				console.log = function(text) {
+					console.textContent = text + "\n" + console.textContent;
+				}
+				
+				anim = new Animation({
+					frames:[
+						{
+							duration: 1000,
+							step: function(t){
+								foo.textContent = Math.floor(100*t) + '%';
+							},
+							begin: function() {
+								console.log("frame 1 begin");
+							},
+							end: function() {
+								console.log("frame 1 end");
+							}
+						},
+						{
+							duration: 1000,
+							step: function(t){
+								foo.textContent = 100 - Math.floor(100*t) + '%';
+							},
+							begin: function() {
+								console.log("frame 2 begin");
+							},
+							end: function() {
+								console.log("frame 2 end");
+							}
+						}
+					],
+				});
+				
+				
+				var scrubbing = false;
+				var track = document.getElementById('track');
+				
+				track.onmousedown = function(eventObj) {
+					eventObj = eventObj || event;
+					scrubbing = true;
+					var percent = (eventObj.clientX-track.offsetLeft)/300;
+					anim.scrub(percent*anim.duration);
+					return false;
+				};
+				document.onmouseup = function() {
+					scrubbing = false;
+				};
+				
+				document.onmousemove = function(eventObj) {
+					eventObj = eventObj || event;
+					if (scrubbing)
+					{
+						var percent = (eventObj.clientX-track.offsetLeft)/300;
+						anim.scrub(percent*anim.duration);
+					}
+				};
+				
+				anim.timeupdate = function() {
+				  document.getElementById('progress').style.width = 300*(anim.currentTime/anim.duration)+"px";
+				};
+			};
+		</script>
+	</head>
+<body>
+	<div id='scene'>
+		<div id='foo'>Hello World</div>
+	</div>
+	<button onclick="anim.play()">Play</button>
+	<button onclick="anim.pause()">Pause</button>
+	<button onclick="anim.stop()">Stop</button>
+	<button onclick="anim.scrub(document.getElementById('scrub').value)">Scrub</button>
+	<input id="scrub" type='text' value='0ms'/>
+	Looping:<button onclick="anim.loop = anim.loop ? false : true; this.innerHTML = anim.loop;">false</button>
+	<button onclick="anim.rate = document.getElementById('rate').value;">Rate</button>
+	<input id="rate" type='text' value='1'/>
+	<div id='track'><div id='progress'></div></div>
+	<textarea id='console' readonly="readonly"></textarea>
+</body>
+</html>

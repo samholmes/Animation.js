@@ -4,7 +4,7 @@
 - Add an options parameter alternative to addFrame
 	- begin, step and end callbacks
 	- duration
-	- extras
+	- extra
 
 + Add an options parameter to the Animation() constructor
 
