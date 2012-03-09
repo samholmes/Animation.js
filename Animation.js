@@ -7,14 +7,14 @@
 
 //Give IE indexOf for arrays
 if(!Array.prototype.indexOf) {
-		Array.prototype.indexOf = function(obj) {
-				for(var i=0, len=this.length; i<len; ++i) {
-						if(this[i]==obj) {
-								return i;
-						}
-				}
-				return -1;
-		};
+	Array.prototype.indexOf = function(obj) {
+		for(var i=0, len=this.length; i<len; ++i) {
+			if(this[i]==obj) {
+				return i;
+			}
+		}
+		return -1;
+	};
 }
 
 //Animation constructor
@@ -36,10 +36,10 @@ function Animation(options) {
 	this.addFrame = function(a, b){
 		// a and b will either be the step callback and duration respectively, or a would be an options object
 		var step = a.step || a,
-				begin = a.begin || null,
-				end = a.end || null,
-				duration = a.duration || b,
-				extra = a.extra || [].slice.apply(arguments, [2, arguments.length]);
+			begin = a.begin || null,
+			end = a.end || null,
+			duration = a.duration || b,
+			extra = a.extra || [].slice.apply(arguments, [2, arguments.length]);
 		
 		this.frames.push({
 			step: step, // A function to be executed whenever this frame's currentTime changes
