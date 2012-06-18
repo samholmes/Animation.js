@@ -1,15 +1,8 @@
-Animation.js
-============
+# Animation.js
 
 Animation.js is a simple, lightweight and powerful, javascript animation engine. It uses a global animation loop for all animations while keeping track of interval times. This makes it CPU friendly and allows it to handle many simultaneous animations wonderfully.
 
-If you like my work, buy me a Red Bull or Macbook Air or something. ;P
-
-[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=SJCCMHKZLMSX2&lc=US&item_name=Animation%2ejs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)  
-**Bitcoin Address:** 1NCqKqpQoioFQkqRpEsZk8bVFmuEjqY2y5
-
-Setup
------
+## Setup
 
 To set up Animation.js, all you need to do is include the Animation.js or Animation.min.js files into your HTML document:
 
@@ -19,8 +12,7 @@ To set up Animation.js, all you need to do is include the Animation.js or Animat
 
 That's all you need to do to set it up.
 
-Using Animation.js
-------------------
+## Using Animation.js
 
 Every animation is an instance of the Animation object.
 
@@ -54,7 +46,7 @@ The meat of your animation is within these frame callbacks. Here's an example of
 This will animation the page's title with the text going from "0%" to "100%" in two seconds (2000 milliseconds). 
 You can add as many frames to your animation as you wish.
 
-###Playback Controls
+### Playback Controls
 
 Every animation object comes with great playback methods.
 
@@ -63,7 +55,7 @@ Every animation object comes with great playback methods.
 - stop() : Stops the animation and then sets it back to the beginning.
 - scrub(p) : Allows you to move to a specific position in time in milliseconds (p) in the animation.
 
-###Animation Properties
+### Animation Properties
 
 Every animation has the following set of properties:
 
@@ -74,13 +66,13 @@ Every animation has the following set of properties:
 - rate : The rate of playback. 1 is normal, -1 is reverse, 2 is twice the rate, .5 is half, etc. Default is 1.
 - frames : An array of all the frame objects within the animation.
 
-###Animation Callbacks
+### Animation Callbacks
 
 - begin : A function that is executed whenever animation begins.
 - timeupdate : A function that is executed for every moment of playback, even across frames.
 - end : A function that is executed when the animation ends or is paused/stopped.
 
-###Frames
+### Frames
 
 You add frames to the animation object using the **addFrame** method.
 Each frame gets an index starting at 0 (zero). 
@@ -94,7 +86,7 @@ Within frame callbacks *this* references the current frame object. It's properti
 - callback : The callback function.
 - extra : An array of extra user-defined values.
 
-###Extra
+### Extra
 
 Any extra parameters you pass to the addFrame function will be tossed into the *extra* array. 
 This extra array will be availabled as parameters for the *callback*.
@@ -108,7 +100,7 @@ This extra array will be availabled as parameters for the *callback*.
 
 You can also access and modify the extra array within the callback via *this.extra*.
 
-###Easings
+### Easings
 
 All easing functions are contained withing **Animation.ease**. You can view the source to see which easings Animation.js supports natively.
 You can also add you're own custom easings to this namespaces, possibly creating another namespace withing it like *Animation.ease.myCustomEases*.
@@ -127,12 +119,18 @@ Here's an example on how you use easings in Animation.js:
 
 Every easing function excepts only one argument, the time (0 to 1). It then returns the time modified according to easing.
 
-Closing
--------
+## Closing
 
 Animation.js is an extremely powerful animation engine. 
 The great thing about Animation.js is that you can do multiple things within frames, and have multiple easings for each frame!
 You can also add multiple frames to your animation for those more complex animations.
 Defining your animation with these powerful fundamentals wouldn't be complete without awesome playback controls!
 
+## Feedback and Support
+
 This is just the begin for Animation.js. Any feedback provided would be greatly appreciated, so hit up the issues section on github.
+
+Also, if you like my work, tips and donations are appreciated. :)
+
+[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=SJCCMHKZLMSX2&lc=US&item_name=Animation%2ejs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)  
+[<img src="https://en.bitcoin.it/w/images/en/c/c4/BC_Logotype_Reverse.png" height='18'>](bitcoin:1NCqKqpQoioFQkqRpEsZk8bVFmuEjqY2y5) 1NCqKqpQoioFQkqRpEsZk8bVFmuEjqY2y5
