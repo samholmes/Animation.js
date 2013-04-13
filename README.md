@@ -132,5 +132,6 @@ This is just the begin for Animation.js. Any feedback provided would be greatly 
 
 Also, if you like my work, tips and donations are appreciated. :)
 
+[![Gittip](https://www.gittip.com/assets/8.0.8/logo.png)](https://www.gittip.com/samholmes/)
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=SJCCMHKZLMSX2&lc=US&item_name=Animation%2ejs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)  
 [<img src="https://en.bitcoin.it/w/images/en/c/c4/BC_Logotype_Reverse.png" height='18'>](bitcoin:1NCqKqpQoioFQkqRpEsZk8bVFmuEjqY2y5) 1NCqKqpQoioFQkqRpEsZk8bVFmuEjqY2y5
